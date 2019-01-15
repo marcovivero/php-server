@@ -1,0 +1,13 @@
+web-server:
+    
+    image: nginx:1.15.8-alpine
+    
+    volumes:
+        - ./bin/run-nginx.sh:/etc/nginx/run-nginx.sh
+        - ./conf/nginx.conf:/etc/nginx/conf.d/nginx_custom.conf
+        - ./certs/:/etc/nginx/certs/
+
+    ports:
+        - "8080:443"
+
+    command: /bin/sh /etc/nginx/run-nginx.sh 
