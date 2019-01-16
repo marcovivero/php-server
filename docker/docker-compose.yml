@@ -1,13 +1,36 @@
-web-server:
-    
-    image: nginx:1.15.8-alpine
-    
-    volumes:
-        - ./bin/run-nginx.sh:/etc/nginx/run-nginx.sh
-        - ./conf/nginx.conf:/etc/nginx/conf.d/nginx_custom.conf
-        - ./certs/:/etc/nginx/certs/
+version: '2'
 
-    ports:
-        - "8080:443"
 
-    command: /bin/sh /etc/nginx/run-nginx.sh 
+services:
+    php-web-server:
+        
+        image: nginx:1.15.8-alpine
+        
+        volumes:
+            - ./bin/run-nginx.sh:/etc/nginx/run-nginx.sh
+            - ./certs/:/etc/nginx/certs/
+            - ./conf/nginx.conf:/etc/nginx/conf.d/nginx_custom.conf
+            - ../src/php/:/usr/share/php-server/
+
+        ports:
+            - '8080:443'
+
+        command: /bin/sh /etc/nginx/run-nginx.sh 
+
+        networks:
+            - php-server-network
+
+
+    php-server:
+        image: php:7.3.1-fpm-alpine3.8
+
+        volumes:
+            - ../src/php/:/usr/share/php-server/
+
+        networks:
+            - php-server-network
+
+
+networks:
+    php-server-network:
+        driver: bridge

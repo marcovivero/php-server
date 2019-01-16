@@ -4,11 +4,12 @@
 
 apk add openssl
 
-mkdir /etc/nginx/certs/
+if [[ ! -d /etc/nginx/certs/ ]]; then
+    mkdir /etc/nginx/certs/
+    cd /etc/nginx/certs/
+    openssl req -x509 -nodes -days 1024 -newkey rsa:2048 -keyout localhost.key -out localhost.crt \
+        -subj "/C=US/ST=California/L=Burlingame/O=Web Server/OU=Web Server/CN=localhost"
+fi
 
-cd /etc/nginx/certs/
-openssl req -x509 -nodes -days 1024 -newkey rsa:2048 -keyout localhost.key -out localhost.crt \
-    -subj "/C=US/ST=California/L=Burlingame/O=Web Server/OU=Web Server/CN=localhost"
-
-envsubst < /etc/nginx/conf.d/nginx_custom.conf > /etc/nginx/conf.d/default.conf && \
+cat /etc/nginx/conf.d/nginx_custom.conf > /etc/nginx/conf.d/default.conf && \
     nginx -g 'daemon off;'
