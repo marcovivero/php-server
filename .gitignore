@@ -1,2 +1,4 @@
+bazel-*
+
 docker/certs/
 *DS_Store
