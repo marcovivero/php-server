@@ -1,16 +1,6 @@
 <?php
-
-if(isset($_POST['loginButton'])) {
-    // Login button was pressed
-    echo "Login button was pressed!";
-}
-
-if(isset($_POST['registerButton'])) {
-    // Login button was pressed
-    $username = $_POST['registerUsername'];
-    echo "Register button was pressed: " . $username;
-}
-
+    include('auth/login-handler.php');
+    include('auth/register-handler.php');
 ?>
 
 <html>
